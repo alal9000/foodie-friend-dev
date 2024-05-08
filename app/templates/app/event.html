@@ -1,0 +1,94 @@
+{% extends "app/main.html" %} {% block content %}
+
+<style>
+  .form-container {
+      display: flex;
+      align-items: center;
+  }
+
+  .form-container h5 {
+      margin-right: 10px;
+  }
+</style>
+
+<!-- head section of page -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <h1>{{event.event_title}}</h1>
+      <img src="{{ event.host.profile_pic.url }}" class="card-img-top" alt="{{ event.title }}">
+      <p><strong>Host: </strong>{{event.host.user.first_name}}</p>
+      <p><strong>Location: </strong>{{event.location}}</p>
+      <p><strong>Date and Time: </strong>{{event.event_datetime}}</p>
+      <p><strong>Attendees: </strong>{{event.attendees}}</p>
+      <p><strong>Description: </strong>{{event.description}}</p>
+    </div>
+  </div>
+</div>
+
+<!-- join section -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <hr>
+      {% if request.user.email != event.host.user.email %}
+        {% if request.user.profile in event.guests.all %}
+          <form method="post" action="{% url 'remove_attendee' event.id %}" class="form-container mt-4">
+            {% csrf_token %}
+            <h5>Remove from Event:</h5>
+            <button type="submit" class="btn btn-danger">Remove</button>
+          </form>
+        {% else %}
+          <form method="post" action="{% url 'event' event.id %}" class="form-container mt-4">
+            {% csrf_token %}
+            <h5>Join Event:</h5>
+            <button type="submit" class="btn btn-primary">Join Event</button>
+          </form>
+        {% endif %}
+      {% endif %}
+
+
+
+      <!-- Current attendes and attendee chat  -->
+      <div class="row justify-content-left attendees-section mt-4">
+        <div class="col-lg-6">
+          <h3>Current Attendees:</h3>
+          <ul class="attendees-list">
+            <li>{{event.host.user.first_name}} {{event.host.user.last_name|slice:":1"}}<b>- Host</b></li>
+            {% for guest in event.guests.all %}
+              <li class="attendees-list-item">{{ guest.user.username }}</li>
+            {% endfor %}
+          </ul>
+          <h3 class="mt-4">Attendee Chat</h3>
+        {% if is_guest or is_host %}
+          <div class="row justify-content-left">
+            <div class="col-lg-6">
+              <form method="post" action="{% url 'event' event.id %}">
+                {% csrf_token %}
+                <textarea name="comment_text" placeholder="Add a comment..." required></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
+        <div class="row justify-content-left mt-4">
+          <div class="col-lg-6">
+            <h3 class="mt-4">Comments</h3>
+            <ul>
+              {% for comment in comments %}
+                <li>{{ comment.profile.user.first_name }} {{comment.profile.user.last_name|slice:":1"}}: {{ comment.comment }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- close off page  -->
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

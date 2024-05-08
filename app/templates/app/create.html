@@ -1,0 +1,56 @@
+{% extends "app/main.html" %} {% block content %}
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Note: Contact us to remove an event otherwise it will automatically be removed after 6 weeks. You can always re-create your event
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="create">
+        <h2>Create Event</h2>
+        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data" class="mt-4">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.event_title.label_tag }}
+            {{ form.event_title }}
+          </div>
+          <div class="mb-3">
+            <label for="id_event_datetime">Event Date and Time:</label>
+            <input type="datetime-local" id="id_event_datetime" name="event_datetime" required>
+          </div>
+          <div class="mb-3">
+            {{ form.attendees.label_tag }}
+            {{ form.attendees }}
+          </div>
+          <div class="mb-3">
+            {{ form.location.label_tag }}
+            {{ form.location }}
+          </div>
+          <div class="mb-3">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+          </div>
+          <div class="mb-3">
+            {{ form.particular_eateries.label_tag }}
+            {{ form.particular_eateries }}
+          </div>
+          <div class="mb-3">
+            {{ form.establishment_type.label_tag }}
+            {{ form.establishment_type }}
+          </div>
+          <div class="mb-3">
+            <label for="id_description">Description:</label>
+            <div>
+                {{ form.description }}
+            </div>
+        </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

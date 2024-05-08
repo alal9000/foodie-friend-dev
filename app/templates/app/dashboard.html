@@ -1,0 +1,51 @@
+{% extends "app/main.html" %}
+{% block content %}
+
+{% if success_message %}
+<div class="alert alert-success" role="alert">
+  {{ success_message }}
+</div>
+{% endif %}
+
+<div class="container">
+  <h1>Hi, {{request.user.first_name}} 👋</h1>
+
+  {% if events %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for event in events %}
+    <div class="col">
+      <div class="card">
+        <h5 class="card-title">{{ event.event_title }}</h5>
+        <img src="{{ event.host.profile_pic.url }}" class="card-img-top" alt="{{ event.title }}">
+        <div class="card-body">
+          <p class="card-text">{{ event.description|truncatechars:50 }}</p>
+          <a href="{% url 'event' event.id %}" class="btn btn-primary">Join Event</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination links -->
+  {% if events.has_other_pages %}
+  <div class="pagination">
+    {% if events.has_previous %}
+    <a href="?page=1" class="page-link">&laquo; First</a>
+    <a href="?page={{ events.previous_page_number }}" class="page-link">&lsaquo; Previous</a>
+    {% endif %}
+    <span class="current-page">Page {{ events.number }} of {{ events.paginator.num_pages }}</span>
+    {% if events.has_next %}
+    <a href="?page={{ events.next_page_number }}" class="page-link">Next &rsaquo;</a>
+    <a href="?page={{ events.paginator.num_pages }}" class="page-link">Last &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+    <div class="empty-events">
+      <h2>wow such empty ^-^</h2>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

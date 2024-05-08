@@ -1,0 +1,67 @@
+{% extends "app/main.html" %}
+{% block content %}
+{% load account %}
+
+<h1 class="welcome-msg">Hi, {{request.user.first_name}} 👋</h1>
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+
+	.welcome-msg {
+		margin-left: 10px;
+	}
+</style>
+
+<br>
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<a class="btn btn-warning" href="{% url 'home' %}"> &#8592; Back to Events</a>
+			<hr>
+			<h3 style="text-align: center">{{ request.user.first_name}} {{ request.user.last_name|slice:":1" }}</h3>
+			<hr>
+			<img class="profile-pic" src="{{request.user.profile.profile_pic.url}}" >
+		
+		</div>
+	</div>
+	
+	<div class="col-md-9">
+		<div class="card card-body">
+			
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{form.as_p}}
+		
+			<input class="btn btn-primary" type="submit" name="Update Information">
+			</form>
+		</div>
+		<h2 class="mt-4">Events Attending</h2>
+		<ul>
+				{% for event in attended_events %}
+						<li><a href="{% url 'event' event.id %}">{{ event.event_title }}</a></li>
+				{% empty %}
+						<li>No events attended yet.</li>
+				{% endfor %}
+		</ul>
+
+		<h2>Events Hosting </h2>
+		<ul>
+				{% for event in hosted_events %}
+				{% if event.host == request.user.profile %}
+				<li><a href="{% url 'event' event.id %}">{{ event.event_title }}</a></li>
+				{% endif %}
+				{% empty %}
+						<li>No events hosted yet.</li>
+				{% endfor %}
+		</ul>
+		</div>
+	</div>
+
+
+
+{% endblock %}

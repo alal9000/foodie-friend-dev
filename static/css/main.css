@@ -1,0 +1,71 @@
+/* layout */
+.page-layout-container {
+  height: 70vh;
+  padding: 5px;
+}
+
+/* nav */
+
+/* events page  */
+.card-img-top {
+  border-radius: 100%;
+  padding: 50px;
+}
+
+.empty-events {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+.empty-events h2 {
+    color: green;
+}
+
+/* event detail page*/
+
+.col-lg-6 h1 {
+  margin-top: 50px;
+}
+
+/* recs page */
+
+.page-layout-container .rec-table {
+      border-collapse: collapse;
+  }
+
+.page-layout-container .rec-table th,
+.page-layout-container .rec-table td {
+      border: none;
+      padding: 8px;
+      text-align: left;
+  }
+  
+  .page-layout-container .rec-table th {
+      background-color: #f2f2f2;
+  }
+
+
+/* footer */
+
+.footer {
+  background-color: #2b3034;
+  height: 35vh;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer h5 {
+  color: white;
+}
+
+.footer p {
+  color: white;
+}

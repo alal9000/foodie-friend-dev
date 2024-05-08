@@ -1,0 +1,8 @@
+S3 bucket name: foodiefriend-bucket
+
+28/04
+-made changes in navbar and added new template in templates for recs 
+
+-made changes in views for recs
+
+-made changes in urls to add new recs page
